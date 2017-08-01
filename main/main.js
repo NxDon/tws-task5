@@ -16,7 +16,7 @@ function countItems(inputs, loadAllitems) {
 				results.push({
 					name: obj.name,
 					count: 1,
-					barcode:obj.barcode,
+					barcode: obj.barcode,
 					unit: obj.unit,
 					unitPrice: obj.price
 				})
@@ -29,9 +29,22 @@ function countItems(inputs, loadAllitems) {
 
 function countPromotions(items, loadPromotions) {
 
+	var promotionsInfo = loadPromotions();
+	var promotions = [];
 
-
+	items.forEach((elem) => {
+		//在优惠列表内
+		if (promotionsInfo.barcode.includes(elem.barcode)) {
+			var promotionNum = Math.floor(elem.count / 3);
+			promotions.push({
+				name: elem.name,
+				count: promotionNum
+			})
+		}
+	})
+	return promotions;
 }
+
 function createPrintText(items, promotions) {
 
 }

@@ -45,12 +45,44 @@ function countPromotions(items, loadPromotions) {
 	return promotions;
 }
 
-function createPrintText(items, promotions) {
 
+function createShoppingListHead(items, promotions) {
+	var listHead = '';
+	items.forEach((elem) => {
+		let elemTotal = elem.count * elem.unitPrice;//小计
+		promotions.forEach((promotion) => {
+			if (promotion.name === elem.name) {
+				elemTotal -= promotion.count * elem.unitPrice;//优惠后价格
+			}
+		});
+
+		listHead += "名称：" + elem.name + "，数量：" + elem.count
+			+ "，单价：" + elem.unitPrice + "(元)，小计：" + elemTotal + "\n";
+	})
+	return listHead;
+}
+function createShoppingListPromotions(promotions) {
+
+}
+function createShoppingListTotalInfo(items, promotions) {
+
+}
+
+function createPrintText(items, promotions) {
+	var listHead,
+		listPromotions,
+		totalInfo,
+		outputText;
+	listHead = createShoppingListHead(items, promotions);
+	listPromotions = createShoppingListPromotions(promotions);
+	totalInfo = createShoppingListTotalInfo(items, promotions);
+	outputText = "***<没钱赚商店>购物清单***\n" + listHead + "\n----------------------\n" + listPromotions
+		+ "\n----------------------\n" + totalInfo + "\n**********************"
+	return outputText;
 }
 module.exports = function main(inputs) {
 	var items = countitems(inputs, loadAllitems);
 	var promotions = countPromotions(items, loadPromotions);
-	var outPutText = createPrintText(items, Promotions);
-	return 'Hello World!';
+	var outPutText = createPrintText(items, promotions);
+	console.log(outPutText);
 };

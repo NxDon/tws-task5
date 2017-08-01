@@ -1,12 +1,12 @@
-function countItems(Inputs, loadAllItems) {
-	var itemsList = loadAllItems();
+function countItems(inputs, loadAllitems) {
+	var itemsList = loadAllitems();
 	var results = [];
-	Inputs.forEach((elem, index, array) => {
-		let elemName = elem.replace(reg, ",").split(",")[0];//处理'ITEM000003-2'
+	inputs.forEach((elem) => {
+		let elemBarCode = elem.replace(reg, ",").split(",")[0];//处理'ITEM000003-2'
 		let elemCount = elem.replace(reg, ",").split(",")[1] ? parseInt(elem.replace(reg, ",").split(",")[1]) : 1;
 		for (let i = 0; i < results.length; i++) {
 			//已经存在的物品
-			if (results[i].barcode === elemName) {
+			if (results[i].barcode === elemBarCode) {
 				results[i].count += elemCount;
 			}
 		}
@@ -14,8 +14,9 @@ function countItems(Inputs, loadAllItems) {
 		itemsList.forEach((obj) => {
 			if (obj.barcode === elem.barcode) {
 				results.push({
-					name: elem,
+					name: obj.name,
 					count: 1,
+					barcode:obj.barcode,
 					unit: obj.unit,
 					unitPrice: obj.price
 				})
@@ -25,15 +26,18 @@ function countItems(Inputs, loadAllItems) {
 	return results;
 
 }
-function countPromotions(Items, loadPromotions) {
+
+function countPromotions(items, loadPromotions) {
+
+
 
 }
-function createPrintText(Items, Promotions) {
+function createPrintText(items, promotions) {
 
 }
-module.exports = function main(Inputs) {
-	var Items = countItems(Inputs, loadAllItems);
-	var Promotions = countPromotions(Items, loadPromotions);
-	var outPutText = createPrintText(Items, Promotions);
+module.exports = function main(inputs) {
+	var items = countitems(inputs, loadAllitems);
+	var promotions = countPromotions(items, loadPromotions);
+	var outPutText = createPrintText(items, Promotions);
 	return 'Hello World!';
 };

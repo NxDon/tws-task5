@@ -116,19 +116,8 @@ function createPrintText(items, promotions) {
 }
 module.exports =
 	function main(inputs) {
-	var items = countItems(inputs, loadAllItems);
-	var promotions = countPromotions(items, loadPromotions);
-	var outPutText = createPrintText(items, promotions);
-	console.log(outPutText);
-};
-// main( [
-// 	// 'ITEM000001',
-// 	// 'ITEM000001',
-// 	// 'ITEM000001',
-// 	// 'ITEM000001',
-// 	// 'ITEM000001',
-// 	'ITEM000003-2',
-// 	'ITEM000005',
-// 	'ITEM000005',
-// 	'ITEM000005'
-// ]);
+		var items = countItems(inputs, loadAllItems);
+		var promotions = countPromotions(items, loadPromotions);
+		var outPutText = createPrintText(items, promotions);
+		console.log(outPutText);
+	};

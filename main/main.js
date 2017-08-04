@@ -1,9 +1,8 @@
-const dat = require('../main/datbase.js');
-var loadAllItems = dat.loadAllItems;
-var loadPromotions = dat.loadPromotions;
+const data = require('../main/datbase.js');
+var loadAllItems = data.loadAllItems;
+var loadPromotions = data.loadPromotions;
 
-function countItems(inputs, loadAllitems) {
-	var itemsList = loadAllitems();
+function countItems(inputs, itemsList) {
 	var results = [];
 	var reg = /-/;
 	inputs.forEach((elem) => {
@@ -28,17 +27,13 @@ function countItems(inputs, loadAllitems) {
 				});
 			}
 		});
-
 	});
 	return results;
 
 }
 
-function countPromotions(items, loadPromotions) {
-
-	var promotionsInfo = loadPromotions();
+function countPromotions(items, promotionsInfo) {
 	var promotions = [];
-
 	items.forEach((elem) => {
 		//在优惠列表内
 		if (promotionsInfo[0].barcodes.includes(elem.barcode)) {
@@ -47,9 +42,9 @@ function countPromotions(items, loadPromotions) {
 				name: elem.name,
 				count: promotionNum,
 				unit: elem.unit
-			})
+			});
 		}
-	})
+	});
 	return promotions;
 }
 
@@ -63,7 +58,6 @@ function createShoppingListHead(items, promotions) {
 				elemTotal -= promotion.count * elem.unitPrice;//优惠后价格
 			}
 		});
-
 		listHead += "名称：" + elem.name + "，数量：" + elem.count
 			+ elem.unit + "，单价：" + elem.unitPrice.toFixed(2) + "(元)，小计：" + elemTotal.toFixed(2) + "(元)\n";
 	});
@@ -73,7 +67,7 @@ function createShoppingListPromotions(promotions) {
 	var listPromotions = "挥泪赠送商品：\n";
 	promotions.forEach((elem) => {
 		listPromotions += "名称：" + elem.name + "，数量：" + elem.count + elem.unit + "\n";
-	})
+	});
 	return listPromotions;
 }
 function createShoppingListTotalInfo(items, promotions) {
@@ -114,10 +108,12 @@ function createPrintText(items, promotions) {
 		"**********************";
 	return outputText;
 }
-module.exports =
-	function main(inputs) {
-		var items = countItems(inputs, loadAllItems);
-		var promotions = countPromotions(items, loadPromotions);
-		var outPutText = createPrintText(items, promotions);
-		console.log(outPutText);
-	};
+
+module.exports = function main(inputs) {
+	let itemList = loadAllItems();
+	let promotionsInfo = loadPromotions();
+	let items = countItems(inputs, itemList);
+	let promotions = countPromotions(items, promotionsInfo);
+	let outPutText = createPrintText(items, promotions);
+	console.log(outPutText);
+};
